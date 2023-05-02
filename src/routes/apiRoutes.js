@@ -1,13 +1,12 @@
 import express from "express";
-import Product from "../models/ProductModel";
-import { getProducts } from "../controller/productController";
+import productRoutes from "./productRoutes";
+import orderRoutes from "./orderRoutes";
+import categoryRoutes from "./categoryRoutes";
 
-const router = express.Router();
+const app = express();
 
-const initApiRoutes = (app) => {
-  router.get("/", getProducts);
+app.use("/products", productRoutes);
+app.use("/orders", orderRoutes);
+app.use("/categories", categoryRoutes);
 
-  return app.use("/api/products", router);
-};
-
-export default initApiRoutes;
+export default app;

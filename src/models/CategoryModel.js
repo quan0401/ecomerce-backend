@@ -11,4 +11,4 @@ const Category = mongoose.model("Category", categorySchema);
 
 categorySchema.index({ description: 1 });
 
-module.exports = Category;
+export default Category;
