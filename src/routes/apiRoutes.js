@@ -1,16 +1,11 @@
 import express from "express";
+import Product from "../models/ProductModel";
+import { getProducts } from "../controller/productController";
 
 const router = express.Router();
 
 const initApiRoutes = (app) => {
-  router.get("/", (req, res, next) => {
-    try {
-      res.send("testingklagfkjasdk;fj;kladsjfl");
-    } catch (error) {
-      next(error);
-      console.log(error);
-    }
-  });
+  router.get("/", getProducts);
 
   return app.use("/api/products", router);
 };
