@@ -1,23 +1,10 @@
 import Product from "../models/ProductModel";
 import recordsPerPage from "../config/pagination";
 
-export const getAll = async (req, res, next) => {
+export const getAllController = async (req, res, next) => {
   try {
     // They are the same
     // const result = await Product.find().sort({ name: 'asc' });
-
-    let query = {};
-
-    // Filter
-    const priceQuery = { price: { $lt: +req.query.price } };
-
-    const ratingList = req.query.rating
-      .split(",")
-      .map((each) => Number(each.trim()));
-
-    const ratingQuery = { rating: { $in: ratingList } };
-
-    query = { $and: [priceQuery, ratingQuery] };
 
     // paignation
     const pageNum = Number(req.query.pageNum) || 1;
@@ -29,6 +16,38 @@ export const getAll = async (req, res, next) => {
       const splitSortOption = sortOption.split("_");
       sort = { [splitSortOption[0]]: +splitSortOption[1] };
     }
+
+    // Filter
+    // Price filter
+    let query = {};
+    let isFilter = false;
+    let priceQuery = {};
+    if (req.query.price) {
+      isFilter = true;
+      priceQuery = { price: { $lt: +req.query.price } };
+    }
+    // Rating filter
+    let ratingList = [];
+    let ratingQuery = {};
+    if (req.query.rating) {
+      isFilter = true;
+      // split ["1", " 2", " 3"] to array of number
+      ratingList = req.query.rating
+        .split(",")
+        .map((each) => Number(each.trim()));
+      ratingQuery = { rating: { $in: ratingList } };
+    }
+    // Category filter
+    let categoryQuery = {};
+    const categoryName = req.params.categoryName || "";
+    if (categoryName) {
+      isFilter = true;
+      const a = categoryName.replaceAll(",", "/");
+      const regEx = new RegExp("^" + a);
+      categoryQuery = { category: regEx };
+    }
+
+    if (isFilter) query = { $and: [priceQuery, ratingQuery, categoryQuery] };
 
     const totalProducts = await Product.count(query);
     const products = await Product.find(query)
