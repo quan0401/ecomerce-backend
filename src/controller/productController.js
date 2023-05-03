@@ -37,9 +37,10 @@ export const getAllController = async (req, res, next) => {
         .map((each) => Number(each.trim()));
       ratingQuery = { rating: { $in: ratingList } };
     }
-    // Category filter
+    // Category filter for params
     let categoryQuery = {};
     const categoryName = req.params.categoryName || "";
+
     if (categoryName) {
       isFilter = true;
       const a = categoryName.replaceAll(",", "/");
@@ -47,7 +48,52 @@ export const getAllController = async (req, res, next) => {
       categoryQuery = { category: regEx };
     }
 
-    if (isFilter) query = { $and: [priceQuery, ratingQuery, categoryQuery] };
+    // Category filter for query multiple
+    const category = req.query.category || "";
+    if (category) {
+      isFilter = true;
+      const a = category.split(",").map((item) => new RegExp("^" + item));
+      categoryQuery = { category: { $in: a } };
+    }
+
+    // Attributes filter
+    const rawAttrs = req.query.attrs || "";
+    let attributesQuery = [];
+    if (rawAttrs) {
+      isFilter = true;
+      attributesQuery = rawAttrs.split(",").reduce((acc, item) => {
+        const splitKeyAndValues = item.split("-");
+        const key = splitKeyAndValues[0];
+        splitKeyAndValues.shift();
+        const query = {
+          attributes: {
+            $elemMatch: { key, value: { $in: splitKeyAndValues } },
+          },
+        };
+        acc.push(query);
+        return acc;
+      }, []);
+    }
+
+    console.log(...attributesQuery);
+
+    if (isFilter)
+      query = {
+        $and: [
+          priceQuery,
+          ratingQuery,
+          categoryQuery,
+          ...attributesQuery,
+          // {
+          //   attributes: {
+          //     $elemMatch: {
+          //       key: "Battery Life",
+          //       value: { $in: ["Up to 20 hours"] },
+          //     },
+          //   },
+          // },
+        ],
+      };
 
     const totalProducts = await Product.count(query);
     const products = await Product.find(query)
@@ -59,6 +105,7 @@ export const getAllController = async (req, res, next) => {
       products,
       pageNum,
       paginationLinksNumber: Math.ceil(totalProducts / recordsPerPage),
+      attributesQuery,
     });
   } catch (error) {
     next(error);
