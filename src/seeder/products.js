@@ -5,7 +5,7 @@ const products = [
     category: "Computers",
     count: 7,
     price: 1499,
-    rating: 4.6,
+    rating: 4,
     reviewsNumber: 12,
     attributes: [
       { key: "Processor", value: "Intel Core i7-1165G7" },
@@ -32,7 +32,7 @@ const products = [
     category: "Phones",
     count: 15,
     price: 999,
-    rating: 4.7,
+    rating: 4,
     reviewsNumber: 25,
     attributes: [
       { key: "Color", value: "Phantom Gray" },
@@ -59,7 +59,7 @@ const products = [
     category: "Computers",
     count: 7,
     price: 1499,
-    rating: 4.6,
+    rating: 4,
     reviewsNumber: 12,
     attributes: [
       { key: "Processor", value: "Intel Core i7-1165G7" },
@@ -86,7 +86,7 @@ const products = [
     category: "Cameras",
     count: 4,
     price: 2399,
-    rating: 4.8,
+    rating: 4,
     reviewsNumber: 9,
     attributes: [
       { key: "Sensor", value: "20.1MP full-frame CMOS sensor" },
@@ -109,7 +109,7 @@ const products = [
     category: "Phones",
     count: 7,
     price: 699,
-    rating: 4.3,
+    rating: 4,
     reviewsNumber: 12,
     attributes: [
       { key: "Color", value: "Phantom Gray" },
@@ -136,7 +136,7 @@ const products = [
     category: "Computers",
     count: 8,
     price: 1499,
-    rating: 4.7,
+    rating: 4,
     reviewsNumber: 18,
     attributes: [
       { key: "Processor", value: "10th Gen Intel Core i7-10510U" },
@@ -159,7 +159,7 @@ const products = [
     category: "Cameras",
     count: 2,
     price: 3899,
-    rating: 4.6,
+    rating: 2,
     reviewsNumber: 8,
     attributes: [
       { key: "Sensor", value: "45MP full-frame CMOS sensor" },
@@ -185,7 +185,7 @@ const products = [
     category: "Headphones",
     count: 3,
     price: 549,
-    rating: 4.4,
+    rating: 1,
     reviewsNumber: 6,
     attributes: [
       { key: "Color", value: "Space Gray" },

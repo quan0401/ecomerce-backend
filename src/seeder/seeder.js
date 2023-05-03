@@ -21,8 +21,8 @@ import users from "./users";
 import Order from "../models/OrderModel";
 import orders from "./orders";
 
-connectDB();
 const importData = async () => {
+  connectDB();
   try {
     await Category.deleteMany({});
     await Category.insertMany(categories);
