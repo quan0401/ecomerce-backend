@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 // app.use(express.json());
 
 // Mongodb connection
+// importData();
 connectDB();
 
 // Api routes

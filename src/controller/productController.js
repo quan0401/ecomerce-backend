@@ -122,3 +122,60 @@ export const getProductsController = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getProductByIdController = async (req, res, next) => {
+  try {
+    const result = await Product.findById(req.params.id)
+      .populate("reviews")
+      .orFail();
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getBestsellerController = async (req, res, next) => {
+  try {
+    // aggregate exampler book 100$, book 50$, Camera 100$, Camera 40$
+    // const products = await Product.aggregate([
+    //   { $sort: { category: 1, sales: -1 } },
+    //   {
+    //     $group: { _id: "$category", doc_with_max_sale: { $first: "$$ROOT" } },
+    //   },
+    //   { $replaceWith: "$doc_with_max_sale" },
+    //   { $match: { sales: { $gt: 0 } } },
+    //   {
+    //     $project: {
+    //       sales: 1,
+    //       _id: 1,
+    //       name: 1,
+    //       images: 1,
+    //       category: 1,
+    //       description: 1,
+    //     },
+    //   },
+    //   { $limit: 3 },
+    // ]);
+
+    const products = await Product.aggregate([
+      { $sort: { category: 1, sales: -1 } },
+      { $group: { _id: "$category", doc_with_max_sale: { $first: "$$ROOT" } } },
+      { $replaceWith: "$doc_with_max_sale" },
+      { $match: { sales: { $gt: 0 } } },
+      {
+        $project: {
+          sales: 1,
+          _id: 1,
+          name: 1,
+          images: 1,
+          category: 1,
+          description: 1,
+        },
+      },
+    ]);
+
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+};
