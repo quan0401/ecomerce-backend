@@ -1,10 +1,17 @@
 import express from "express";
-import { getAllController } from "../controller/productController";
+import { getProductsController } from "../controller/productController";
 
 const productRoutes = express.Router();
 
-productRoutes.get("/", getAllController);
+productRoutes.get("/", getProductsController);
 
-productRoutes.get("/category/:categoryName", getAllController);
+productRoutes.get("/category/:categoryName", getProductsController);
+
+productRoutes.get(
+  "/category/:categoryName/search/:searchQuery",
+  getProductsController
+);
+
+productRoutes.get("/search/:searchQuery", getProductsController);
 
 export default productRoutes;

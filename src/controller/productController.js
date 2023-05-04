@@ -1,7 +1,7 @@
 import Product from "../models/ProductModel";
 import recordsPerPage from "../config/pagination";
 
-export const getAllController = async (req, res, next) => {
+export const getProductsController = async (req, res, next) => {
   try {
     // They are the same
     // const result = await Product.find().sort({ name: 'asc' });
@@ -11,6 +11,7 @@ export const getAllController = async (req, res, next) => {
 
     // sort
     let sort = {};
+    let select = {};
     const sortOption = req.query.sort || "";
     if (sortOption) {
       const splitSortOption = sortOption.split("_");
@@ -74,8 +75,16 @@ export const getAllController = async (req, res, next) => {
         return acc;
       }, []);
     }
-
-    console.log(...attributesQuery);
+    // Search query through search box
+    const searchData = req.params.searchQuery;
+    let searchQuery = {};
+    if (searchQuery) {
+      isFilter = true;
+      // searchQuery = { $text: { $search: '"' + searchData + '"' } };
+      searchQuery = { $text: { $search: searchData } };
+      select.score = { $meta: "textScore" };
+      sort = { score: { $meta: "textScore" } };
+    }
 
     if (isFilter)
       query = {
@@ -84,6 +93,7 @@ export const getAllController = async (req, res, next) => {
           ratingQuery,
           categoryQuery,
           ...attributesQuery,
+          searchQuery,
           // {
           //   attributes: {
           //     $elemMatch: {
@@ -97,6 +107,7 @@ export const getAllController = async (req, res, next) => {
 
     const totalProducts = await Product.count(query);
     const products = await Product.find(query)
+      .select(select)
       .skip(recordsPerPage * (pageNum - 1))
       .sort(sort)
       .limit(recordsPerPage);
