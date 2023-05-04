@@ -5,6 +5,9 @@ import {
   getBestsellerController,
   adminGetProdctsController,
   adminDeleteProductController,
+  adminCreateProductController,
+  adminDeleteAllController,
+  adminUpdateProductController,
 } from "../controller/productController";
 
 const productRoutes = express.Router();
@@ -29,5 +32,9 @@ productRoutes.get("/get-one/:id", getProductByIdController);
 // Admin Route
 productRoutes.get("/admin", adminGetProdctsController);
 productRoutes.delete("/admin/:id", adminDeleteProductController);
+productRoutes.post("/admin", adminCreateProductController);
+productRoutes.put("/admin/:id", adminUpdateProductController);
+
+productRoutes.delete("/admin/delete/:name", adminDeleteAllController);
 
 export default productRoutes;

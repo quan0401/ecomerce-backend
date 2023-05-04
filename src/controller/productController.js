@@ -204,3 +204,72 @@ export const adminDeleteProductController = async (req, res, next) => {
     next(error);
   }
 };
+
+export const adminCreateProductController = async (req, res, next) => {
+  try {
+    const {
+      name,
+      description,
+      category,
+      count,
+      price,
+      attributesTable,
+      ...values
+    } = req.body;
+
+    const result = await Product.create({
+      name,
+      description,
+      category,
+      count,
+      price,
+      attributes: attributesTable,
+      ...values,
+    });
+
+    const result1 = await result.save();
+
+    res.status(200).send(result1);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const adminUpdateProductController = async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+    const product = req.body;
+    console.log({ productId, product });
+    if (!productId || !product)
+      return res.status(400).send("Delete unsuccessfully");
+
+    const productFound = await Product.findById(productId).orFail();
+
+    productFound.name = product.name || productFound.name;
+    productFound.description = product.description || productFound.description;
+    productFound.category = product.category || productFound.category;
+    productFound.count = product.count || productFound.count;
+    productFound.price = product.price || productFound.price;
+    productFound.sales = product.sales || productFound.sales;
+    productFound.attributes =
+      product.attributesTable || productFound.attributes;
+    const result = await productFound.save();
+    res.status(200).send(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const adminDeleteAllController = async (req, res, next) => {
+  try {
+    const name = req.params.name;
+
+    const result = await Product.deleteMany({
+      $text: { $search: name },
+    }).orFail();
+
+    res.status(200).send(result);
+  } catch (error) {
+    next(error);
+  }
+};
