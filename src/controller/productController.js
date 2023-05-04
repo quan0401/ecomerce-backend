@@ -78,10 +78,11 @@ export const getProductsController = async (req, res, next) => {
     // Search query through search box
     const searchData = req.params.searchQuery;
     let searchQuery = {};
-    if (searchQuery) {
+    if (searchData) {
       isFilter = true;
       // searchQuery = { $text: { $search: '"' + searchData + '"' } };
       searchQuery = { $text: { $search: searchData } };
+
       select.score = { $meta: "textScore" };
       sort = { score: { $meta: "textScore" } };
     }
@@ -175,6 +176,30 @@ export const getBestsellerController = async (req, res, next) => {
     ]);
 
     res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+};
+export const adminGetProdctsController = async (req, res, next) => {
+  try {
+    const products = await Product.find()
+      .sort({ category: 1 })
+      .select("name price category")
+      .orFail();
+    res.status(200).send(products);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const adminDeleteProductController = async (req, res, next) => {
+  try {
+    const productId = req.params.id || "";
+    if (!productId) res.status(400).find("Id of product is required");
+
+    const product = await Product.findById(productId).orFail();
+    const result = await product.deleteOne();
+    res.status(200).send({ result });
   } catch (error) {
     next(error);
   }
