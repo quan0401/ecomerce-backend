@@ -3,6 +3,7 @@ import recordsPerPage from "../config/pagination";
 import imageValidate from "../utils/validateImage";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
+import fs from "fs";
 
 export const getProductsController = async (req, res, next) => {
   try {
@@ -305,10 +306,11 @@ export const adminUploadFile = async (req, res, next) => {
       const fileName = uuidv4() + "." + img.name.split(".").pop();
 
       const uploadPath = uploadDirectory + "/" + fileName;
-      product.images.push({ url: uploadPath });
+      product.images.push({ url: "/images/products/" + fileName });
       img.mv(uploadPath, function (error) {
         if (error) res.status(500).send(error);
       });
+      console.log("/images/products/" + fileName);
     });
 
     // const result = product.images.map((img) => {
@@ -333,6 +335,40 @@ export const adminUploadFile = async (req, res, next) => {
     await product.save();
 
     res.status(200).send("Image uploaded");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const adminDeleteProductImageController = async (req, res, next) => {
+  try {
+    const imagePath = decodeURIComponent(req.params.imagePath);
+
+    const productId = req.params.productId || "";
+    if (!productId || !imagePath)
+      res.status(400).send("Need product id to delete");
+
+    // Find image path name
+    const finalPath =
+      path.resolve(__dirname, "../../../ecomerce-front-end/public/") +
+      imagePath;
+
+    // Delete images in the front end
+    fs.unlink(finalPath, function (error) {
+      if (error) res.status(500).send(error);
+    });
+    let result = {};
+    // Delete Image url
+    result = await Product.findOneAndUpdate({
+      _id: productId,
+      $pull: {
+        images: {
+          url: imagePath,
+        },
+      },
+    }).orFail();
+
+    return res.status(200).send(result);
   } catch (error) {
     next(error);
   }
