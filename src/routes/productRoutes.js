@@ -1,47 +1,44 @@
 import express from "express";
 import {
-  getProductsController,
-  getProductByIdController,
-  getBestsellerController,
-  adminGetProdctsController,
-  adminDeleteProductController,
-  adminCreateProductController,
-  adminDeleteAllController,
-  adminUpdateProductController,
+  getProducts,
+  getProductById,
+  getBestseller,
+  adminGetProdcts,
+  adminDeleteProduct,
+  adminCreateProduct,
+  adminDeleteAll,
+  adminUpdateProduct,
   adminUploadFile,
-  adminDeleteProductImageController,
+  adminDeleteProductImage,
 } from "../controller/productController";
 
 const productRoutes = express.Router();
 
-productRoutes.get("/", getProductsController);
+productRoutes.get("/", getProducts);
 
-productRoutes.get("/category/:categoryName", getProductsController);
+productRoutes.get("/category/:categoryName", getProducts);
 
-productRoutes.get(
-  "/category/:categoryName/search/:searchQuery",
-  getProductsController
-);
+productRoutes.get("/category/:categoryName/search/:searchQuery", getProducts);
 
-productRoutes.get("/search/:searchQuery", getProductsController);
+productRoutes.get("/search/:searchQuery", getProducts);
 
-productRoutes.get("/bestseller", getBestsellerController);
+productRoutes.get("/bestseller", getBestseller);
 // best seller need to be put above id
-// productRoutes.get("/:id", getProductByIdController);
+// productRoutes.get("/:id", getProductById);
 
-productRoutes.get("/get-one/:id", getProductByIdController);
+productRoutes.get("/get-one/:id", getProductById);
 
 // Admin Route
-productRoutes.get("/admin", adminGetProdctsController);
-productRoutes.delete("/admin/:id", adminDeleteProductController);
-productRoutes.post("/admin", adminCreateProductController);
-productRoutes.put("/admin/:id", adminUpdateProductController);
+productRoutes.get("/admin", adminGetProdcts);
+productRoutes.delete("/admin/:id", adminDeleteProduct);
+productRoutes.post("/admin", adminCreateProduct);
+productRoutes.put("/admin/:id", adminUpdateProduct);
 productRoutes.post("/admin/upload", adminUploadFile);
 productRoutes.delete(
   "/admin/image/:imagePath/:productId",
-  adminDeleteProductImageController
+  adminDeleteProductImage
 );
 
-productRoutes.delete("/admin/delete/:name", adminDeleteAllController);
+productRoutes.delete("/admin/delete/:name", adminDeleteAll);
 
 export default productRoutes;

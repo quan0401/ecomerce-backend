@@ -5,7 +5,7 @@ import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 
-export const getProductsController = async (req, res, next) => {
+export const getProducts = async (req, res, next) => {
   try {
     // They are the same
     // const result = await Product.find().sort({ name: 'asc' });
@@ -128,7 +128,7 @@ export const getProductsController = async (req, res, next) => {
   }
 };
 
-export const getProductByIdController = async (req, res, next) => {
+export const getProductById = async (req, res, next) => {
   try {
     const result = await Product.findById(req.params.id)
       .populate("reviews")
@@ -139,7 +139,7 @@ export const getProductByIdController = async (req, res, next) => {
   }
 };
 
-export const getBestsellerController = async (req, res, next) => {
+export const getBestseller = async (req, res, next) => {
   try {
     // aggregate exampler book 100$, book 50$, Camera 100$, Camera 40$
     // const products = await Product.aggregate([
@@ -184,7 +184,7 @@ export const getBestsellerController = async (req, res, next) => {
     next(error);
   }
 };
-export const adminGetProdctsController = async (req, res, next) => {
+export const adminGetProdcts = async (req, res, next) => {
   try {
     const products = await Product.find()
       .sort({ category: 1 })
@@ -196,7 +196,7 @@ export const adminGetProdctsController = async (req, res, next) => {
   }
 };
 
-export const adminDeleteProductController = async (req, res, next) => {
+export const adminDeleteProduct = async (req, res, next) => {
   try {
     const productId = req.params.id || "";
     if (!productId) res.status(400).find("Id of product is required");
@@ -209,7 +209,7 @@ export const adminDeleteProductController = async (req, res, next) => {
   }
 };
 
-export const adminCreateProductController = async (req, res, next) => {
+export const adminCreateProduct = async (req, res, next) => {
   try {
     const {
       name,
@@ -239,7 +239,7 @@ export const adminCreateProductController = async (req, res, next) => {
   }
 };
 
-export const adminUpdateProductController = async (req, res, next) => {
+export const adminUpdateProduct = async (req, res, next) => {
   try {
     const productId = req.params.id;
     const product = req.body;
@@ -263,7 +263,7 @@ export const adminUpdateProductController = async (req, res, next) => {
   }
 };
 
-export const adminDeleteAllController = async (req, res, next) => {
+export const adminDeleteAll = async (req, res, next) => {
   try {
     const name = req.params.name;
 
@@ -310,7 +310,6 @@ export const adminUploadFile = async (req, res, next) => {
       img.mv(uploadPath, function (error) {
         if (error) res.status(500).send(error);
       });
-      console.log("/images/products/" + fileName);
     });
 
     // const result = product.images.map((img) => {
@@ -340,7 +339,7 @@ export const adminUploadFile = async (req, res, next) => {
   }
 };
 
-export const adminDeleteProductImageController = async (req, res, next) => {
+export const adminDeleteProductImage = async (req, res, next) => {
   try {
     const imagePath = decodeURIComponent(req.params.imagePath);
 
@@ -357,8 +356,9 @@ export const adminDeleteProductImageController = async (req, res, next) => {
     fs.unlink(finalPath, function (error) {
       if (error) res.status(500).send(error);
     });
-    let result = {};
+
     // Delete Image url
+    let result = {};
     result = await Product.findOneAndUpdate({
       _id: productId,
       $pull: {
@@ -368,7 +368,7 @@ export const adminDeleteProductImageController = async (req, res, next) => {
       },
     }).orFail();
 
-    return res.status(200).send(result);
+    res.status(200).send(result);
   } catch (error) {
     next(error);
   }
