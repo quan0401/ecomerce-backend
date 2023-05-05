@@ -2,14 +2,16 @@ import express from "express";
 import connectDB from "./config/db";
 import apiRoutes from "./routes/apiRoutes";
 import bodyParser from "body-parser";
+import fileUpload from "express-fileupload";
 import importData from "./seeder/seeder";
 
 const app = express();
 const port = 8000;
+// File upload
+app.use(fileUpload());
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-
 // parse application/json
 app.use(bodyParser.json());
 

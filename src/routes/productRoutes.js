@@ -8,6 +8,7 @@ import {
   adminCreateProductController,
   adminDeleteAllController,
   adminUpdateProductController,
+  adminUploadFile,
 } from "../controller/productController";
 
 const productRoutes = express.Router();
@@ -34,6 +35,7 @@ productRoutes.get("/admin", adminGetProdctsController);
 productRoutes.delete("/admin/:id", adminDeleteProductController);
 productRoutes.post("/admin", adminCreateProductController);
 productRoutes.put("/admin/:id", adminUpdateProductController);
+productRoutes.post("/admin/upload", adminUploadFile);
 
 productRoutes.delete("/admin/delete/:name", adminDeleteAllController);
 
