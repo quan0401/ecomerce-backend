@@ -1,4 +1,5 @@
 import User from "../models/UserModel";
+import generateAuthToken from "../utils/generateAuthToken";
 import hassPassword from "../utils/hassPassword";
 require("dotenv").config();
 
@@ -24,7 +25,7 @@ export const registerUser = async (req, res, next) => {
     const userExisted = await User.findOne({ email });
 
     if (userExisted) res.status(400).send("User exists");
-    const result = await User.create({
+    const user = await User.create({
       firstName,
       lastName,
       email: email.toLowerCase(),
@@ -32,13 +33,23 @@ export const registerUser = async (req, res, next) => {
     });
 
     res
-      .cookie("access_token", "fake access token", {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-      })
+      .cookie(
+        "access_token",
+        generateAuthToken(
+          user._id,
+          user.firstName,
+          user.lastName,
+          user.email,
+          user.isAdmin
+        ),
+        {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+        }
+      )
       .status(201)
-      .send(result);
+      .send(user);
   } catch (error) {
     next(error);
   }
