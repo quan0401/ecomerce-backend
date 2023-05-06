@@ -57,3 +57,65 @@ export const createOrder = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateOrderToPaid = async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    order.isPaid = true;
+    order.paidAt = Date.now();
+    const updatedOrder = await order.save();
+
+    res.status(200).send(updatedOrder);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateOrderToDelivered = async (req, res, next) => {
+  try {
+    const order = await Order.findOneAndUpdate(
+      {
+        _id: new mongoose.Types.ObjectId(req.params.id),
+      },
+      [
+        { $set: { isDelivered: true } },
+        {
+          $set: {
+            deliverAt: Date.now(),
+          },
+        },
+      ],
+      { new: true }
+    );
+    // if multiple updates use [] else use {}
+    res.status(200).send(order);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getOrders = async (req, res, next) => {
+  try {
+    const orders = await Order.find()
+      .populate("user", "-password")
+      .sort("desc");
+    res.status(200).send(orders);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getOrdersForAnalysis = async (req, res, next) => {
+  try {
+    const start = new Date(req.params.date);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(req.params.date);
+    end.setHours(23, 59, 59, 999);
+
+    const orders = await Order.find({ createdAt: { $gt: start, $lt: end } });
+
+    res.status(200).send(orders);
+  } catch (error) {
+    next(error);
+  }
+};
