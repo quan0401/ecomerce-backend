@@ -63,7 +63,7 @@ export const login = async (req, res, next) => {
     const { email, password, doNotLogout } = req.body;
     if (!(email && password)) res.status(400).send("Wrong credentials");
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).orFail();
     const check = comparePassword(password, user.password);
     if (!check) res.status(400).send("Wrong credentials");
 
@@ -152,10 +152,11 @@ export const writeReview = async (req, res, next) => {
   try {
     const productId = req.params.productId;
     const { rating, comment } = req.body;
+    const session = await Review.startSession();
 
     // Create reviewId manually since it also need to save for product
     const reviewId = new mongoose.Types.ObjectId();
-    const result = await Review.create({
+    await Review.create({
       _id: reviewId,
       rating: Number(rating),
       comment,
@@ -163,11 +164,13 @@ export const writeReview = async (req, res, next) => {
         _id: req.user._id,
         name: req.user.firstName + " " + req.user.lastName,
       },
+      session: session,
     });
 
     const product = await Product.findById(productId)
       .populate("reviews")
-      .orFail();
+      .orFail()
+      .session(session);
 
     // Calculate total rating
     const totalRating =
@@ -179,11 +182,55 @@ export const writeReview = async (req, res, next) => {
     product.reviews.push(reviewId);
 
     product.reviewsNumber = product.reviews.length;
-    product.rating = totalRating / product.reviewsNumber;
+    product.rating = Math.ceil((totalRating / product.reviewsNumber) * 10) / 10;
 
     const save = await product.save();
 
+    await session.commitTransaction();
+    session.endSession();
+
     res.status(200).send({ product: save });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUser = async (req, res, next) => {
+  try {
+    const { email, firstName, lastName } = await User.findById(req.params.id)
+      .select("firstName lastName email")
+      .orFail();
+
+    res.status(200).json({ email, firstName, lastName });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id)
+      .select("firstName lastName email isAdmin")
+      .orFail();
+
+    user.firstName = req.body.firstName || user.firstName;
+    user.lastName = req.body.lastName || user.lastName;
+    user.email = req.body.email || user.email;
+    user.isAdmin = req.body.isAdmin || user.isAdmin;
+
+    const saveUser = await user.save();
+
+    res.status(200).json(saveUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id).orFail();
+    const result = await user.deleteOne();
+    res.status(200).send(result);
   } catch (error) {
     next(error);
   }

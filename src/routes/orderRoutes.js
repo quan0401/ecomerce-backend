@@ -1,8 +1,13 @@
 import express from "express";
-import { getAll } from "../controller/orderController";
+import { getOrders } from "../controller/orderController";
+import { verifyAdmin, verifyIsLoggedIn } from "../middleware/verifyAuthToken";
 
 const orderRoutes = express.Router();
 
-orderRoutes.get("/", getAll);
+orderRoutes.use(verifyIsLoggedIn);
+orderRoutes.get("/", getOrders);
+
+// Admin
+orderRoutes.use(verifyAdmin);
 
 export default orderRoutes;

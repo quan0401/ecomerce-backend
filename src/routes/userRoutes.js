@@ -6,6 +6,9 @@ import {
   updateUserProfile,
   getUserProfile,
   writeReview,
+  getUser,
+  updateUser,
+  deleteUser,
 } from "../controller/userController";
 import { verifyAdmin, verifyIsLoggedIn } from "../middleware/verifyAuthToken";
 
@@ -23,5 +26,8 @@ userRoutes.post("/review/:productId", writeReview);
 // Admin routes
 userRoutes.use(verifyAdmin);
 userRoutes.get("/", getAll);
+userRoutes.get("/:id", getUser);
+userRoutes.put("/:id", updateUser);
+userRoutes.delete("/:id", deleteUser);
 
 export default userRoutes;

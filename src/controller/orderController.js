@@ -1,11 +1,14 @@
-import thisModel from "../models/OrderModel";
+import Order from "../models/OrderModel";
+import mongoose from "mongoose";
 
-const getAll = async (req, res, next) => {
+const getOrders = async (req, res, next) => {
   try {
-    const result = await thisModel.find();
-    res.send(result);
+    const userId = new mongoose.Types.ObjectId(req.user._id);
+    const orders = await Order.find({ user: { _id: userId } });
+
+    res.status(200).send(orders);
   } catch (error) {
     next(error);
   }
 };
-export { getAll };
+export { getOrders };
