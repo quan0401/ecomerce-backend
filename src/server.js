@@ -3,6 +3,8 @@ import connectDB from "./config/db";
 import apiRoutes from "./routes/apiRoutes";
 import bodyParser from "body-parser";
 import fileUpload from "express-fileupload";
+import cookieParser from "cookie-parser";
+
 import importData from "./seeder/seeder";
 
 const app = express();
@@ -14,8 +16,10 @@ app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
-
 // app.use(express.json());
+
+// Cookie
+app.use(cookieParser());
 
 // Mongodb connection
 // importData();

@@ -11,6 +11,7 @@ export const getProducts = async (req, res, next) => {
     // const result = await Product.find().sort({ name: 'asc' });
 
     // paignation
+
     const pageNum = Number(req.query.pageNum) || 1;
 
     // sort

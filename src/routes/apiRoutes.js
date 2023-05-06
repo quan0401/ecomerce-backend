@@ -3,6 +3,7 @@ import productRoutes from "./productRoutes";
 import orderRoutes from "./orderRoutes";
 import categoryRoutes from "./categoryRoutes";
 import userRoutes from "./userRoutes";
+
 const app = express();
 
 app.use("/products", productRoutes);

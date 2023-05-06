@@ -54,6 +54,7 @@ export const registerUser = async (req, res, next) => {
     next(error);
   }
 };
+
 export const login = async (req, res, next) => {
   try {
     const { email, password, doNotLogout } = req.body;
@@ -63,7 +64,7 @@ export const login = async (req, res, next) => {
     const check = comparePassword(password, user.password);
     if (!check) res.status(400).send("Wrong credentials");
 
-    let cookieParams = {
+    const cookieParams = {
       httpOnly: true,
       sameSite: "strict",
       secure: process.env.NODE_ENV === "production",

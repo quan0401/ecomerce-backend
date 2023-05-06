@@ -6,9 +6,13 @@ import {
   saveAttributeController,
 } from "../controller/categoryController";
 
+import { verifyAdmin, verifyIsLoggedIn } from "../middleware/verifyAuthToken";
+
 const router = express.Router();
 
 router.get("/", getAllController);
+
+router.use(verifyIsLoggedIn, verifyAdmin);
 
 router.post("/", newCategoryController);
 

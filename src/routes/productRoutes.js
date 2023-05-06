@@ -11,6 +11,7 @@ import {
   adminUploadFile,
   adminDeleteProductImage,
 } from "../controller/productController";
+import { verifyAdmin, verifyIsLoggedIn } from "../middleware/verifyAuthToken";
 
 const productRoutes = express.Router();
 
@@ -28,7 +29,9 @@ productRoutes.get("/bestseller", getBestseller);
 
 productRoutes.get("/get-one/:id", getProductById);
 
-// Admin Route
+// Admin Routes
+productRoutes.use(verifyIsLoggedIn, verifyAdmin);
+
 productRoutes.get("/admin", adminGetProdcts);
 productRoutes.delete("/admin/:id", adminDeleteProduct);
 productRoutes.post("/admin", adminCreateProduct);
