@@ -1,4 +1,4 @@
-import express from "express";
+const express = require("express");
 import connectDB from "./config/db";
 import apiRoutes from "./routes/apiRoutes";
 import bodyParser from "body-parser";
@@ -30,8 +30,10 @@ app.use("/api", apiRoutes);
 
 // To send error to the frontend
 app.use((error, req, res, next) => {
-  console.log(error);
-  res.status(500).json({ message: error.message, stack: error.stack });
+  if (process.env.NODE_ENV === "development") {
+    console.log(error);
+    res.status(500).json({ message: error.message, stack: error.stack });
+  } else res.status(500).json({ message: error.message });
 });
 
 app.listen(port, () => {

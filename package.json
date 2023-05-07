@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node src/server.js"
+    "start": "nodemon --exec babel-node src/server.js",
+    "server-prod": "--exec babel-node src/server.js",
+    "client": "npm start --prefix ../ecomerce-front-end",
+    "dev": "concurrently --kill-others-on-fail \"npm start\" \"npm run client\""
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +28,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "concurrently": "^8.0.1",
     "nodemon": "^2.0.22"
   }
 }
