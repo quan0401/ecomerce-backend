@@ -81,7 +81,7 @@ export const updateOrderToDelivered = async (req, res, next) => {
         { $set: { isDelivered: true } },
         {
           $set: {
-            deliverAt: Date.now(),
+            deliveredAt: new Date(),
           },
         },
       ],

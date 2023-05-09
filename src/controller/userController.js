@@ -19,15 +19,14 @@ export const getAll = async (req, res, next) => {
 export const registerUser = async (req, res, next) => {
   try {
     const { firstName, lastName, email, password } = req.body;
-    console.log({ firstName, lastName, email, password });
     if (!(firstName && lastName && email && password))
-      res.status(400).send("All input are required");
+      res.status(400).send({ EM: "All input are required", EC: 1 });
 
     const hassPass = hassPassword(password);
 
     const userExisted = await User.findOne({ email });
 
-    if (userExisted) res.status(400).send("User exists");
+    if (userExisted) res.status(400).send({ EM: "User exists", EC: 1 });
     const user = await User.create({
       firstName,
       lastName,
@@ -52,7 +51,7 @@ export const registerUser = async (req, res, next) => {
         }
       )
       .status(201)
-      .send(user);
+      .send({ user, EC: 0 });
   } catch (error) {
     next(error);
   }
@@ -61,11 +60,12 @@ export const registerUser = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { email, password, doNotLogout } = req.body;
-    if (!(email && password)) res.status(400).send("Wrong credentials");
+    if (!(email && password))
+      res.status(400).send({ EM: "All inputs are required", EC: 1 });
 
     const user = await User.findOne({ email }).orFail();
     const check = comparePassword(password, user.password);
-    if (!check) res.status(400).send("Wrong credentials");
+    if (!check) res.status(400).send({ EM: "Wrong credentials", EC: 1 });
 
     const cookieParams = {
       httpOnly: true,
@@ -73,9 +73,9 @@ export const login = async (req, res, next) => {
       secure: process.env.NODE_ENV === "production",
     };
 
-    if (doNotLogout) cookieParams["maxAge"] = 300 * 1000 * 6;
+    if (doNotLogout) cookieParams["maxAge"] = 300 * 1000;
 
-    res
+    return res
       .cookie(
         "access_token",
         generateAuthToken(
@@ -89,13 +89,15 @@ export const login = async (req, res, next) => {
       )
       .status(200)
       .json({
-        success: "User logged in",
+        EC: 0,
+        EM: "User logged in",
         userLoggedIn: {
           _id: user._id,
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
           isAdmin: user.isAdmin,
+          doNotLogout,
         },
       });
   } catch (error) {
@@ -230,7 +232,7 @@ export const deleteUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id).orFail();
     const result = await user.deleteOne();
-    res.status(200).send(result);
+    res.status(200).send({ EC: 0, EM: "Deleted user" });
   } catch (error) {
     next(error);
   }

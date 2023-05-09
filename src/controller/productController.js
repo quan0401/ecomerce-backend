@@ -11,12 +11,12 @@ export const getProducts = async (req, res, next) => {
     // const result = await Product.find().sort({ name: 'asc' });
 
     // paignation
-
     const pageNum = Number(req.query.pageNum) || 1;
 
     // sort
     let sort = {};
     let select = {};
+
     const sortOption = req.query.sort || "";
     if (sortOption) {
       const splitSortOption = sortOption.split("_");
@@ -87,7 +87,6 @@ export const getProducts = async (req, res, next) => {
       isFilter = true;
       // searchQuery = { $text: { $search: '"' + searchData + '"' } };
       searchQuery = { $text: { $search: searchData } };
-
       select.score = { $meta: "textScore" };
       sort = { score: { $meta: "textScore" } };
     }
@@ -204,7 +203,7 @@ export const adminDeleteProduct = async (req, res, next) => {
 
     const product = await Product.findById(productId).orFail();
     const result = await product.deleteOne();
-    res.status(200).send({ result });
+    res.status(200).send({ EC: 0, EM: "Product has been deleted" });
   } catch (error) {
     next(error);
   }

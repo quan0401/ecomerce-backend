@@ -2,138 +2,87 @@ import { ObjectId } from "mongodb";
 
 const orders = [
   {
-    user: new ObjectId(),
-    orderTotal: { itemsCount: 3, cartSubTotal: 249.99 },
+    user: "61513aa2210b6e2e1c5c327d",
+    orderTotal: {
+      itemsCount: 3,
+      cartSubTotal: 135,
+    },
     cartItems: [
       {
-        name: "Product A",
-        price: 99.99,
-        image: { path: "https://example.com/productA.jpg" },
+        name: "Kitchen Knife",
+        price: 45,
+        image: {
+          path: "/images/kitchen_knife.jpg",
+        },
         quantity: 1,
         count: 1,
       },
       {
-        name: "Product B",
-        price: 75.0,
-        image: { path: "https://example.com/productB.jpg" },
-        quantity: 2,
-        count: 2,
+        name: "Dining Table",
+        price: 60,
+        image: {
+          path: "/images/dining_table.jpg",
+        },
+        quantity: 1,
+        count: 1,
+      },
+      {
+        name: "Floor Lamp",
+        price: 30,
+        image: {
+          path: "/images/floor_lamp.jpg",
+        },
+        quantity: 1,
+        count: 1,
       },
     ],
+    paymentMethod: "Credit Card",
     transactionResult: {
-      status: "success",
-      createTime: "2023-04-30T12:00:00Z",
-      amount: 249.99,
+      status: "Paid",
+      createTime: "2022-05-07T08:00:00.000Z",
+      amount: 135,
     },
     isPaid: true,
-    paidAt: "2023-04-30T12:01:00Z",
+    paidAt: "2022-05-07T08:05:00.000Z",
     isDelivered: false,
   },
   {
-    user: new ObjectId(),
-    orderTotal: { itemsCount: 1, cartSubTotal: 149.99 },
+    user: "61513aa2210b6e2e1c5c327d",
+    orderTotal: {
+      itemsCount: 2,
+      cartSubTotal: 100,
+    },
     cartItems: [
       {
-        name: "Product C",
-        price: 149.99,
-        image: { path: "https://example.com/productC.jpg" },
+        name: "Sofa",
+        price: 80,
+        image: {
+          path: "/images/sofa.jpg",
+        },
+        quantity: 1,
+        count: 1,
+      },
+      {
+        name: "Coffee Table",
+        price: 20,
+        image: {
+          path: "/images/coffee_table.jpg",
+        },
         quantity: 1,
         count: 1,
       },
     ],
+    paymentMethod: "PayPal",
     transactionResult: {
-      status: "success",
-      createTime: "2023-04-29T15:00:00Z",
-      amount: 149.99,
+      status: "Paid",
+      createTime: "2022-05-06T08:00:00.000Z",
+      amount: 100,
     },
     isPaid: true,
-    paidAt: "2023-04-29T15:01:00Z",
-    isDelivered: false,
-  },
-  {
-    user: new ObjectId(),
-    orderTotal: { itemsCount: 2, cartSubTotal: 99.98 },
-    cartItems: [
-      {
-        name: "Product D",
-        price: 49.99,
-        image: { path: "https://example.com/productD.jpg" },
-        quantity: 1,
-        count: 1,
-      },
-      {
-        name: "Product E",
-        price: 49.99,
-        image: { path: "https://example.com/productE.jpg" },
-        quantity: 1,
-        count: 1,
-      },
-    ],
-    transactionResult: {
-      status: "failed",
-      createTime: "2023-04-28T10:00:00Z",
-      amount: 0,
-    },
-    isPaid: false,
-    paidAt: null,
-    isDelivered: false,
-  },
-  {
-    user: new ObjectId(),
-    orderTotal: { itemsCount: 1, cartSubTotal: 399.99 },
-    cartItems: [
-      {
-        name: "Product F",
-        price: 399.99,
-        image: { path: "https://example.com/productF.jpg" },
-        quantity: 1,
-        count: 1,
-      },
-    ],
-    transactionResult: {
-      status: "success",
-      createTime: "2023-04-27T08:00:00Z",
-      amount: 399.99,
-    },
-    isPaid: true,
-    paidAt: "2023-04-30T08:01:00Z",
+    paidAt: "2022-05-06T08:05:00.000Z",
     isDelivered: true,
-    deliverAt: "2023-04-30T12:00:00Z",
-  },
-  {
-    user: new ObjectId(),
-    orderTotal: { itemsCount: 4, cartSubTotal: 179.96 },
-    cartItems: [
-      {
-        name: "Product G",
-        price: 29.99,
-        image: { path: "https://example.com/productG.jpg" },
-        quantity: 1,
-        count: 1,
-      },
-      {
-        name: "Product H",
-        price: 39.99,
-        image: { path: "https://example.com/productH.jpg" },
-        quantity: 2,
-        count: 2,
-      },
-      {
-        name: "Product I",
-        price: 34.99,
-        image: { path: "https://example.com/productI.jpg" },
-        quantity: 1,
-        count: 1,
-      },
-    ],
-    transactionResult: {
-      status: "success",
-      createTime: "2023-04-26T17:00:00Z",
-      amount: 179.96,
-    },
-    isPaid: true,
-    paidAt: "2023-04-26T17:01:00Z",
-    isDelivered: false,
+    deliverAt: "2022-05-10T10:00:00.000Z",
   },
 ];
+
 export default orders;

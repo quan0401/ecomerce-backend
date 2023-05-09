@@ -4,7 +4,7 @@ const getAllController = async (req, res, next) => {
   try {
     // orFail() when there is no category error will be thrown
     const result = await Category.find().sort({ name: "asc" }).orFail();
-    res.json(result);
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -22,7 +22,6 @@ const newCategoryController = async (req, res, next) => {
       res.status(400).json("This category is existed");
     }
     const isCreated = await Category.create({ name });
-    console.log(isCreated);
     res.status(201).json({ isCreated });
   } catch (error) {
     next(error);
@@ -32,7 +31,6 @@ const newCategoryController = async (req, res, next) => {
 const deleteCategoryController = async (req, res, next) => {
   try {
     const { category } = req.params;
-    console.log(category);
 
     if (!category) res.status(400).send("Category is required to delete");
 
@@ -43,8 +41,6 @@ const deleteCategoryController = async (req, res, next) => {
     isExisted.deleteOne();
 
     if (!isExisted) res.status(400);
-
-    console.log(isExisted);
   } catch (error) {
     next(error);
   }
