@@ -22,6 +22,17 @@ app.get("/get-token", (req, res, next) => {
   }
 });
 
+app.get("/clear-token", (req, res, next) => {
+  try {
+    res
+      .clearCookie("access_token")
+      .status(200)
+      .send({ EC: 0, EM: "Cookie is cleared" });
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
 app.use("/categories", categoryRoutes);
