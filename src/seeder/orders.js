@@ -12,7 +12,7 @@ const orders = [
         name: "Kitchen Knife",
         price: 45,
         image: {
-          path: "/images/kitchen_knife.jpg",
+          url: "/images/kitchen_knife.jpg",
         },
         quantity: 1,
         count: 1,
@@ -21,7 +21,7 @@ const orders = [
         name: "Dining Table",
         price: 60,
         image: {
-          path: "/images/dining_table.jpg",
+          url: "/images/dining_table.jpg",
         },
         quantity: 1,
         count: 1,
@@ -30,7 +30,7 @@ const orders = [
         name: "Floor Lamp",
         price: 30,
         image: {
-          path: "/images/floor_lamp.jpg",
+          url: "/images/floor_lamp.jpg",
         },
         quantity: 1,
         count: 1,
@@ -57,7 +57,7 @@ const orders = [
         name: "Sofa",
         price: 80,
         image: {
-          path: "/images/sofa.jpg",
+          url: "/images/sofa.jpg",
         },
         quantity: 1,
         count: 1,
@@ -66,7 +66,7 @@ const orders = [
         name: "Coffee Table",
         price: 20,
         image: {
-          path: "/images/coffee_table.jpg",
+          url: "/images/coffee_table.jpg",
         },
         quantity: 1,
         count: 1,

@@ -26,7 +26,7 @@ export const registerUser = async (req, res, next) => {
 
     const userExisted = await User.findOne({ email });
 
-    if (userExisted) res.status(400).send({ EM: "User exists", EC: 1 });
+    if (userExisted) res.status(400).send({ EM: "Email is taken", EC: 1 });
     const user = await User.create({
       firstName,
       lastName,
@@ -51,7 +51,7 @@ export const registerUser = async (req, res, next) => {
         }
       )
       .status(201)
-      .send({ user, EC: 0 });
+      .send({ user, EC: 0, EM: "Account is successfully created" });
   } catch (error) {
     next(error);
   }
@@ -73,7 +73,7 @@ export const login = async (req, res, next) => {
       secure: process.env.NODE_ENV === "production",
     };
 
-    if (doNotLogout) cookieParams["maxAge"] = 300 * 1000;
+    if (doNotLogout) cookieParams["maxAge"] = 300 * 6 * 1000;
 
     return res
       .cookie(
@@ -113,7 +113,6 @@ export const updateUserProfile = async (req, res, next) => {
 
     user.firstName = req.body.firstName || user.firstName;
     user.lastName = req.body.lastName || user.lastName;
-    user.email = req.body.email || user.email;
     if (req.body.oldPassword !== req.body.password)
       user.password = hassPassword(req.body.password);
     user.phoneNumber = req.body.phoneNumber;
@@ -141,9 +140,8 @@ export const updateUserProfile = async (req, res, next) => {
 export const getUserProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id)
-      .select("-password")
+      .select("-password -createdAt -updatedAt -__v")
       .orFail();
-
     res.status(200).json(user);
   } catch (error) {
     next(error);

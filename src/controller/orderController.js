@@ -38,7 +38,7 @@ export const createOrder = async (req, res, next) => {
       quantity.push(item.quantity);
     });
 
-    await Order.create({
+    const order = await Order.create({
       orderTotal,
       cartItems,
       paymentMethod,
@@ -52,7 +52,7 @@ export const createOrder = async (req, res, next) => {
       });
     });
 
-    res.status(200).send({ productIds, quantity });
+    res.status(200).send({ order });
   } catch (error) {
     next(error);
   }
@@ -117,6 +117,26 @@ export const getOrdersForAnalysis = async (req, res, next) => {
     }).sort("asc");
 
     res.status(200).send(orders);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const testMomo = async (req, res, next) => {
+  try {
+    let result;
+    await Order.aggregate([{ $match: { paymentMethod: "momo" } }]).then(
+      (orders) => {
+        const listToDelete = orders.map((item) => item._id);
+        Order.deleteMany({ _id: { $in: listToDelete } })
+          .then((res) => {
+            result = res;
+          })
+          .catch((e) => console.log(e));
+      }
+    );
+
+    res.send(result);
   } catch (error) {
     next(error);
   }

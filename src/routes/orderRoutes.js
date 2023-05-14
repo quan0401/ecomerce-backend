@@ -5,12 +5,15 @@ import {
   getOrders,
   getOrdersForAnalysis,
   getUserOrders,
+  testMomo,
   updateOrderToDelivered,
   updateOrderToPaid,
 } from "../controller/orderController";
 import { verifyAdmin, verifyIsLoggedIn } from "../middleware/verifyAuthToken";
 
 const orderRoutes = express.Router();
+
+orderRoutes.delete("/deleteMomo", testMomo);
 
 orderRoutes.use(verifyIsLoggedIn);
 orderRoutes.get("/", getUserOrders);
