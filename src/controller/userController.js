@@ -73,7 +73,7 @@ export const login = async (req, res, next) => {
       secure: process.env.NODE_ENV === "production",
     };
 
-    if (doNotLogout) cookieParams["maxAge"] = 300 * 6 * 1000;
+    if (doNotLogout) cookieParams["maxAge"] = 300 * 12 * 1000;
 
     return res
       .cookie(

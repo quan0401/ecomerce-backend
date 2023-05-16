@@ -1,6 +1,6 @@
 const categories = [
   {
-    name: "Cameras",
+    name: "Cameras/Canon",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     image: "/images/cameras-category.png",
     attributes: [
@@ -16,7 +16,7 @@ const categories = [
     ],
   },
   {
-    name: "Computers",
+    name: "Computers/Lap/Dell",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     image: "/images/computers-category.png",
     attributes: [
@@ -35,7 +35,7 @@ const categories = [
     ],
   },
   {
-    name: "Computers",
+    name: "Household/kitchen",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     image: "/images/computers-category.png",
     attributes: [
@@ -52,6 +52,46 @@ const categories = [
       { key: "Screen size", value: ["3", "3", "8"] },
       { key: "Processor", value: ["5", "4", "4"] },
       { key: "Battery life", value: ["2", "2", "7"] },
+    ],
+  },
+  {
+    name: "Clothing/Shirts",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    image: "/images/clothing-category.png",
+    attributes: [
+      { key: "Material", value: ["Cotton", "Polyester", "Linen"] },
+      { key: "Color", value: ["Red", "Blue", "Green"] },
+      { key: "Size", value: ["S", "M", "L"] },
+    ],
+  },
+  {
+    name: "Books/Fiction",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    image: "/images/books-category.png",
+    attributes: [
+      { key: "Author", value: ["J.K. Rowling", "Stephen King", "Dan Brown"] },
+      { key: "Genre", value: ["Mystery", "Horror", "Fantasy"] },
+      { key: "Format", value: ["Paperback", "Hardcover", "E-book"] },
+    ],
+  },
+  {
+    name: "Electronics/TV",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    image: "/images/electronics-category.png",
+    attributes: [
+      { key: "Screen size", value: ["32 inches", "50 inches", "65 inches"] },
+      { key: "Resolution", value: ["720p", "1080p", "4K"] },
+      { key: "Smart features", value: ["Yes", "No"] },
+    ],
+  },
+  {
+    name: "Sports/Fitness",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    image: "/images/sports-category.png",
+    attributes: [
+      { key: "Type", value: ["Running shoes", "Fitness tracker", "Yoga mat"] },
+      { key: "Brand", value: ["Nike", "Adidas", "Under Armour"] },
+      { key: "Size", value: ["S", "M", "L"] },
     ],
   },
 ];

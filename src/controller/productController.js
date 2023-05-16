@@ -290,7 +290,7 @@ export const adminUpdateProduct = async (req, res, next) => {
     const product = req.body;
 
     if (!productId || !product)
-      return res.status(400).send("Delete unsuccessfully");
+      return res.status(400).send("Update unsuccessfully");
 
     const productFound = await Product.findById(productId).orFail();
 
@@ -335,6 +335,10 @@ export const adminUploadFile = async (req, res, next) => {
   try {
     const images = req.files?.images;
 
+    const productId = req.query.productId;
+    console.log({ productId });
+    console.log({ images });
+
     if (!images) res.status(500).send("No file was uploaded");
 
     const checkImageType = imageValidate(images);
@@ -349,9 +353,7 @@ export const adminUploadFile = async (req, res, next) => {
       imagesList = images;
     } else imagesList.push(images);
 
-    const productId = req.query.productId;
-
-    if (!productId) res.status(400).send("Need to have produ tId");
+    if (!productId) res.status(400).send("Need to have productId");
 
     const product = await Product.findById(productId);
 
@@ -412,29 +414,34 @@ export const adminDeleteProductImage = async (req, res, next) => {
     const productId = req.params.productId || "";
 
     if (!productId || !imagePath)
-      res.status(400).send("Need product id to delete");
+      res.status(400).send("Need product id and imagePath to delete");
 
     // Find image path name
     const finalPath =
-      path.resolve(__dirname, "../../../ecomerce-front-end/public/") +
-      imagePath;
-
-    // Delete images in the front end
-    fs.unlink(finalPath, function (error) {
-      if (error) res.status(500).send(error);
-    });
+      path.resolve(__dirname, "../../../ecomerce-front-end/public") + imagePath;
 
     // Delete Image url
     let result = {};
 
-    result = await Product.findOneAndUpdate({
-      _id: productId,
-      $pull: {
-        images: {
-          url: imagePath,
+    result = await Product.findOneAndUpdate(
+      { _id: productId },
+      {
+        $pull: {
+          images: {
+            url: imagePath,
+          },
         },
       },
-    }).orFail();
+      { new: true }
+    ).orFail();
+
+    // Delete images file in the front end
+    fs.unlink(finalPath, function (error) {
+      if (error) {
+        console.log(error);
+        res.status(500).send(error);
+      }
+    });
 
     res.status(200).send(result);
   } catch (error) {
