@@ -41,7 +41,7 @@ const importData = async () => {
     await User.deleteMany({});
     await User.insertMany(users);
 
-    await Order.deleteMany({});
+    // await Order.deleteMany({});
     await Order.insertMany(orders);
 
     console.log("Seeder data");

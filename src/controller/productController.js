@@ -26,11 +26,11 @@ export const getProducts = async (req, res, next) => {
     const sortOption = req.query.sort || "";
 
     if (sortOption) {
+      // price_-1, name_1
       const splitSortOption = sortOption.split("_");
 
       sort = { [splitSortOption[0]]: +splitSortOption[1] };
     }
-
     // Filter
     // Price filter
     let query = {};
@@ -86,12 +86,13 @@ export const getProducts = async (req, res, next) => {
     }
 
     // Attributes filter
-    const rawAttrs = req.query.attrs || "";
+    const rawAttrs = req.query.attributes || "";
 
     let attributesQuery = [];
 
     if (rawAttrs) {
       isFilter = true;
+      // a-b-c,d-e-f
 
       attributesQuery = rawAttrs.split(",").reduce((acc, item) => {
         const splitKeyAndValues = item.split("-");
@@ -110,6 +111,7 @@ export const getProducts = async (req, res, next) => {
 
         return acc;
       }, []);
+      // console.log(attributesQuery[0].attributes["$elemMatch"].value);
     }
     // Search query through search box
     const searchData = req.params.searchQuery;
@@ -269,15 +271,17 @@ export const adminCreateProduct = async (req, res, next) => {
       name,
       description,
       category,
-      count,
-      price,
+      count: +count,
+      price: +price,
       attributes: attributesTable,
       ...values,
     });
 
     const result1 = await result.save();
 
-    res.status(200).send(result1);
+    res
+      .status(200)
+      .send({ newProduct: result1, EM: "Product is created successfully" });
   } catch (error) {
     next(error);
   }
@@ -300,18 +304,18 @@ export const adminUpdateProduct = async (req, res, next) => {
 
     productFound.category = product.category || productFound.category;
 
-    productFound.count = product.count || productFound.count;
+    productFound.count = +product.count || +productFound.count;
 
-    productFound.price = product.price || productFound.price;
+    productFound.price = +product.price || +productFound.price;
 
-    productFound.sales = product.sales || productFound.sales;
+    productFound.sales = +product.sales || +productFound.sales;
 
     productFound.attributes =
       product.attributesTable || productFound.attributes;
 
     const result = await productFound.save();
 
-    res.status(200).send(result);
+    res.status(200).send({ EM: "Product updated", result });
   } catch (error) {
     next(error);
   }
@@ -332,12 +336,23 @@ export const adminDeleteAll = async (req, res, next) => {
 };
 
 export const adminUploadFile = async (req, res, next) => {
+  if (req.query.cloudinary === "true") {
+    try {
+      const product = await Product.findById(req.query.productId).orFail();
+
+      product.images.push({ url: req.body.imageUrl });
+
+      const result = await product.save();
+      res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+    return;
+  }
   try {
     const images = req.files?.images;
 
     const productId = req.query.productId;
-    console.log({ productId });
-    console.log({ images });
 
     if (!images) res.status(500).send("No file was uploaded");
 
@@ -408,11 +423,22 @@ export const adminUploadFile = async (req, res, next) => {
 };
 
 export const adminDeleteProductImage = async (req, res, next) => {
+  const imagePath = decodeURIComponent(req.params.imagePath);
+  const productId = req.params.productId || "";
+  if (req.query.cloudinary === "true") {
+    try {
+      const product = await Product.findOneAndUpdate(
+        { _id: productId },
+        { $pull: { images: { url: imagePath } } }
+      ).orFail();
+      res.status(200).send(product);
+    } catch (error) {
+      next(error);
+    }
+    return;
+  }
+
   try {
-    const imagePath = decodeURIComponent(req.params.imagePath);
-
-    const productId = req.params.productId || "";
-
     if (!productId || !imagePath)
       res.status(400).send("Need product id and imagePath to delete");
 

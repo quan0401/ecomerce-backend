@@ -1,0 +1,15 @@
+, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+}
+ 
+ { isObjectIdOrHexString }
+ 
+io.emit("newOrder", data.fullDocument);
+ 
+"http://res.cloudinary.com/dg3fsapzu/image/upload/v…ple-macbook-pro-16-m1-max-2021-600x600_fgdth2.jpg",
+ 
+"/images/lenovo-thinkpad-x1-carbon-black.png",
+ 

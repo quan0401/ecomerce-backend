@@ -107,9 +107,10 @@ export const getOrders = async (req, res, next) => {
 
 export const getOrdersForAnalysis = async (req, res, next) => {
   try {
-    const start = new Date(req.params.date);
+    const start = new Date(req.query.firstDate);
     start.setHours(0, 0, 0, 0);
-    const end = new Date(req.params.date);
+    // start.setHours(23, 59, 59, 999);
+    const end = new Date(req.query.firstDate);
     end.setHours(23, 59, 59, 999);
 
     const orders = await Order.find({

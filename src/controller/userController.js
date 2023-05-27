@@ -153,8 +153,9 @@ export const writeReview = async (req, res, next) => {
     const productId = req.params.productId;
     const { rating, comment } = req.body;
     const session = await Review.startSession();
+    session.startTransaction();
 
-    // Create reviewId manually since it also need to save for product
+    // Create reviewId manually since it also need to save for productModel
     const reviewId = new mongoose.Types.ObjectId();
     await Review.create({
       _id: reviewId,
@@ -187,9 +188,9 @@ export const writeReview = async (req, res, next) => {
     const save = await product.save();
 
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
-    res.status(200).send({ product: save });
+    res.status(200).send({ product: save, EC: 0 });
   } catch (error) {
     next(error);
   }
@@ -197,11 +198,13 @@ export const writeReview = async (req, res, next) => {
 
 export const getUser = async (req, res, next) => {
   try {
-    const { email, firstName, lastName } = await User.findById(req.params.id)
-      .select("firstName lastName email")
+    const { email, firstName, lastName, isAdmin } = await User.findById(
+      req.params.id
+    )
+      .select("firstName lastName email isAdmin")
       .orFail();
 
-    res.status(200).json({ email, firstName, lastName });
+    res.status(200).json({ email, firstName, lastName, isAdmin });
   } catch (error) {
     next(error);
   }
@@ -218,9 +221,9 @@ export const updateUser = async (req, res, next) => {
     user.email = req.body.email || user.email;
     user.isAdmin = req.body.isAdmin || user.isAdmin;
 
-    const saveUser = await user.save();
+    const savedUser = await user.save();
 
-    res.status(200).json(saveUser);
+    res.status(200).json({ savedUser, EM: "Updated user successfully", EC: 0 });
   } catch (error) {
     next(error);
   }

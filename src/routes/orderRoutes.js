@@ -25,6 +25,6 @@ orderRoutes.put("/paid/:id", updateOrderToPaid);
 orderRoutes.use(verifyAdmin);
 orderRoutes.put("/delivered/:id", updateOrderToDelivered);
 orderRoutes.get("/admin", getOrders);
-orderRoutes.get("/analysis/:date", getOrdersForAnalysis);
+orderRoutes.get("/analysis", getOrdersForAnalysis);
 
 export default orderRoutes;

@@ -14,11 +14,11 @@ const products = [
     ],
     images: [
       {
-        url: "/images/lenovo-thinkpad-x1-carbon-black.png",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Lenovo ThinkPad X1 Carbon - Black",
       },
       {
-        url: "/images/lenovo-thinkpad-x1-carbon-silver.png",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Lenovo ThinkPad X1 Carbon - Silver",
       },
     ],
@@ -41,7 +41,7 @@ const products = [
     ],
     images: [
       {
-        url: "/images/canon-eos-r6.png",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Canon EOS R6",
       },
     ],
@@ -64,11 +64,11 @@ const products = [
     ],
     images: [
       {
-        url: "/images/samsung-galaxy-s21-gray.png",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Samsung Galaxy S21 - Phantom Gray",
       },
       {
-        url: "/images/samsung-galaxy-s21-white.png",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Samsung Galaxy S21 - Phantom White",
       },
     ],
@@ -91,7 +91,7 @@ const products = [
     ],
     images: [
       {
-        url: "/images/lenovo-thinkpad-x1-carbon.png",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Lenovo ThinkPad X1 Carbon",
       },
     ],
@@ -117,7 +117,7 @@ const products = [
     ],
     images: [
       {
-        url: "/images/canon-eos-r5.png",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Canon EOS R5",
       },
     ],
@@ -140,7 +140,7 @@ const products = [
     ],
     images: [
       {
-        url: "/images/apple-airpods-max.png",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Apple AirPods Max",
       },
     ],
@@ -164,7 +164,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/kitchenaid-stand-mixer-red.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Red KitchenAid Stand Mixer",
       },
     ],
@@ -186,7 +186,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/cuisinart-food-processor-silver.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Silver Cuisinart 14-Cup Food Processor",
       },
     ],
@@ -208,7 +208,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/instant-pot-duo-plus-black.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Black Instant Pot Duo Plus",
       },
     ],
@@ -230,7 +230,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/iphone-12-black.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Black iPhone 12",
       },
     ],
@@ -252,7 +252,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/galaxy-s21-gray.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Gray Galaxy S21",
       },
     ],
@@ -274,7 +274,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/air-max-270-white.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "White Air Max 270",
       },
     ],
@@ -297,7 +297,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/kitchenaid-stand-mixer-red.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Red KitchenAid Stand Mixer",
       },
     ],
@@ -319,7 +319,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/cuisinart-food-processor-silver.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Silver Cuisinart 14-Cup Food Processor",
       },
     ],
@@ -341,7 +341,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/instant-pot-duo-plus-black.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Black Instant Pot Duo Plus",
       },
     ],
@@ -363,7 +363,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/ikea-malm-bed-white.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "White Ikea Malm Bed Frame",
       },
     ],
@@ -385,7 +385,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/west-elm-dresser-acorn.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Acorn West Elm Mid-Century Dresser",
       },
     ],
@@ -407,7 +407,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/cb2-velvet-sofa-green.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Green CB2 Velvet Sofa",
       },
     ],
@@ -429,7 +429,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/dyson-cyclone-v10-absolute.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Dyson Cyclone V10 Absolute",
       },
     ],
@@ -451,7 +451,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/roomba-i3-plus.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Roomba i3+ Robot Vacuum",
       },
     ],
@@ -473,7 +473,7 @@ const products = [
     ],
     images: [
       {
-        url: "https://example.com/nest-learning-thermostat.jpg",
+        url: "https://res.cloudinary.com/dg3fsapzu/image/upload/v1684995488/blob_lpyqcw.jpg",
         alt: "Nest Learning Thermostat",
       },
     ],
