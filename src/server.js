@@ -15,7 +15,6 @@ import importData from "./seeder/seeder";
 import { Server } from "socket.io";
 
 import { createServer } from "http";
-import cors from "cors";
 
 const app = express();
 
@@ -24,6 +23,53 @@ const port = 8000;
 // socket io
 const httpSever = createServer(app);
 global.io = new Server(httpSever);
+
+const admins = [];
+const activeChats = [];
+
+io.on("connection", (socket) => {
+  socket.on("client sends message", (data) => {
+    if (admins.length === 0) {
+      socket.emit("no admins", "");
+    } else {
+      const client = activeChats.find(
+        (client) => client.clientId === socket.id
+      );
+      let targetAdminId;
+      if (client) {
+        targetAdminId = client.adminId;
+      } else {
+        targetAdminId = admins[Math.floor(Math.random() * admins.length)].id;
+        activeChats.push({ clientId: socket.id, adminId: targetAdminId });
+      }
+      socket.broadcast
+        .to(targetAdminId)
+        .emit("server sends message from client to admin", {
+          client: socket.id,
+          message: data,
+        });
+    }
+  });
+
+  socket.on("admin sends message", ({ message, user }) => {
+    console.log({ user, message });
+    socket.broadcast
+      .to(user)
+      .emit("server sends message from admin to client", {
+        message,
+      });
+  });
+  socket.on("admin connects to server", (admin) => {
+    admins.push({ id: socket.id, admin });
+  });
+
+  socket.on("disconnect", (reason) => {
+    const disconnectAdmin = admins.findIndex((item) => item.id === socket.id);
+    if (disconnectAdmin !== -1) {
+      admins.splice(disconnectAdmin, 1);
+    }
+  });
+});
 
 // File upload
 app.use(fileUpload());
