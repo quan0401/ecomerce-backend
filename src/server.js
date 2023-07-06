@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 import express from "express";
 
 import connectDB from "./config/db";
@@ -11,6 +13,8 @@ import fileUpload from "express-fileupload";
 import cookieParser from "cookie-parser";
 
 import importData from "./seeder/seeder";
+
+import helmet from "helmet";
 
 import { Server } from "socket.io";
 
@@ -52,7 +56,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("admin sends message", ({ message, user }) => {
-    console.log({ user, message });
     socket.broadcast
       .to(user)
       .emit("server sends message from admin to client", {
@@ -63,13 +66,42 @@ io.on("connection", (socket) => {
     admins.push({ id: socket.id, admin });
   });
 
+  socket.on("admin deleted conversation", (data) => {
+    socket.broadcast.emit("admin deleted chat", "Admin deleted conversation");
+    if (io.sockets.sockets[socket.id]) {
+      io.sockets.sockets[socket.id].disconnect();
+    }
+  });
+
   socket.on("disconnect", (reason) => {
     const disconnectAdmin = admins.findIndex((item) => item.id === socket.id);
     if (disconnectAdmin !== -1) {
       admins.splice(disconnectAdmin, 1);
     }
+    const clientIndex = activeChats.findIndex(
+      (item) => item.clientId === socket.id
+    );
+    if (clientIndex !== -1) {
+      activeChats.splice(clientIndex, 1);
+    }
+    socket.broadcast.emit("disconnected", { reason, socketId: socket.id });
   });
 });
+
+const path = require("path");
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.json({ message: "API running..." });
+  });
+}
+
+// Use Helmet!
+app.use(helmet());
 
 // File upload
 app.use(fileUpload());

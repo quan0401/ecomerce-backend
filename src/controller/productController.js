@@ -67,7 +67,8 @@ export const getProducts = async (req, res, next) => {
     if (categoryName) {
       isFilter = true;
 
-      const a = categoryName.replaceAll(",", "/");
+      // const a = categoryName.replaceAll(",", "/");
+      const a = categoryName.replace(/,/g, "/");
 
       const regEx = new RegExp("^" + a);
 
